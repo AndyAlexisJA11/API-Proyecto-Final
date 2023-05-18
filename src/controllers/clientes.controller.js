@@ -14,7 +14,7 @@ export const getClientes = async (req, res) => {
 
 export const getCliente = async (req, res) => {
 try {
-    const [rows] = await pool.query('SELECT * FROM Clientes WHERE id = ?', [req.params.id])
+    const [rows] = await pool.query('SELECT * FROM Clientes WHERE ID_Cliente = ?', [req.params.id])
     if (rows.length <= 0) return res.status(404).json({
         message: 'Usuario not fund'
     })
@@ -28,13 +28,13 @@ try {
 } 
 
 export const createClientes = async (req, res) => {
-    const { nombre, sueldo } = req.body
+    const { Nombre, Apellido } = req.body
    try {
-    const [rows] = await pool.query('INSERT INTO Clientes  (nombre, sueldo) VALUES (?, ?)', [nombre, sueldo])
+    const [rows] = await pool.query('INSERT INTO Clientes  (Nombre, Apellido) VALUES (?, ?)', [Nombre, Apellido])
     res.send({
      id: rows.insertId,
-     nombre,
-     sueldo,
+     Nombre,
+     Apellido,
     })
    } catch (error) {
     return res.status(500).json({
@@ -45,7 +45,7 @@ export const createClientes = async (req, res) => {
 
 export const deleteClientes = async (req, res) => {
   try {
-    const [result] = await pool.query('DELETE FROM Clientes WHERE id = ?', [req.params.id])
+    const [result] = await pool.query('DELETE FROM Clientes WHERE ID_Cliente = ?', [req.params.ID_Cliente])
     if (result.affectedRows <= 0) return res.status(404).json({
       message: 'Usuario not found'  
     })
@@ -58,17 +58,17 @@ export const deleteClientes = async (req, res) => {
 }
 
 export const updateClientes = async (req, res) => {
-    const {id} = req.params
-    const {nombre, sueldo} = req.body
+    const {ID_Cliente} = req.params
+    const {Nombre, Apellido} = req.body
 try {
-    const [result] = await pool.query('UPDATE Clientes SET nombre = IFNULL(?, nombre), sueldo = IFNULL(?, sueldo) WHERE id = ?',
-    [nombre, sueldo, id])
+    const [result] = await pool.query('UPDATE Clientes SET Nombre = IFNULL(?, Nombre), Apellido = IFNULL(?, Apellido) WHERE ID_Cliente = ?',
+    [Nombre, Apellido, ID_Cliente])
 
     console.log(result);
     if (result.affectedRows === 0) return res.status(404).json({
       message: "Usuario not found"  
     })
-    const [rows] = await pool.query('SELECT * FROM Clientes WHERE id = ?', [id])
+    const [rows] = await pool.query('SELECT * FROM Clientes WHERE ID_Cliente = ?', [ID_Cliente])
     res.json(rows[0]) 
 } catch (error) {
     return res.status(500).json({

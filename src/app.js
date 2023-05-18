@@ -1,6 +1,6 @@
 
 import  Express  from "express";
-import ClientesRoutes from "./routes/usuarios.routes.js";
+import ClientesRoutes from "./routes/clientes.routes.js";
 import indexRoutes from "./routes/index.routes.js"
 
 import {PORT} from './config.js'
